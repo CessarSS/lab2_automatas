@@ -6,7 +6,7 @@ const expCompOp = /(>|<|==|<=|>=)/ //Operador comparacion eq a [>|<|==|<=|>=]
 const expStrg = /^\"\w*|\s*\"$/;  //Literal eq a ["[az]*[ ]*"]
 const expNumb = /^[0-9]+$/; //Numero eq a [0-9]
 const expLogOp = /(true|false)/ //Operador logico eq a [true|false]
-const expIf = /if\s*\((\w*|\w*)*\)\:n(\t|\s{4})(pass)$/;
+const expIf = /(resvWif) OpenPar (.*) ClosPar/ //Expresion if
 //const expIf = /resvWif OpenPar id OperComp LitStrg ClosPar/ //Expresion if
 const expFunc = /resvWde id OpenPar (id)*? ClosPar/  //expresion funcion
 const expWhile = /resvWwh OpenPar (LogOp|id OperComp NumConst) ClosPar/ //expresion while
@@ -109,17 +109,17 @@ function getTokenStrg(tokenList){
 
 function sintacAnalisis(tokenStrg){
   const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
-
+  
   if (expDecl.test(tokenStrg)){
     switch (tokenStrg[0]){
       case "if":
-        return expIf.test(tokenStrg) ? ["Sintaxis correcta para declaracion if", true] : ["Sintaxis incorrecta para declaracion if", false]
+        return expIf.test(tokenStrg) ? ["Sintaxis correcta para declaracion if", true] : ["Error de sintaxis en la declaracion if", false]
       case "while":
-        return expWhile.test(tokenStrg) ? ["Sintaxis correcta para declaracion de while", true] : ["Sintaxis incorrecta para declaracion de while", false]
+        return expWhile.test(tokenStrg) ? ["Sintaxis correcta para declaracion de while", true] : ["Error de sintaxis en la declaracion de while", false]
       case "def":
-        return expFunc.test(tokenStrg) ? ["Sintaxis correcta para declaracion de funcion", true] : ["Sintaxis incorrecta para declaracion de funcion", false]
+        return expFunc.test(tokenStrg) ? ["Sintaxis correcta para declaracion de funcion", true] : ["Error de sintaxis en la declaracion de funcion", false]
       default:
-    return ["Sintaxis incorrecta para declaracion", false]
+        return ["Error de sintaxis en la declaracion", false]
     }
   }
   return ["No se reconoce la sintaxis", false]
