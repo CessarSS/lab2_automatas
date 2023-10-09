@@ -76,26 +76,25 @@ function testResvWord(input = ""){
 
 function joinTokens(inputList){
   let allTokens = []
-  let r
-  inputList.map((element)=>{
-    if ((r = testResvWord(element)) !== null|undefined){
+
+  inputList.map((element) => {
+    if ((r = testResvWord(element)) !== null){
       allTokens.push(r)
-    }else if ((r = testOpenPar(element)) !== null|undefined){
+    }else if ((r = testOpenPar(element)) !== null){
       allTokens.push(r)
-    }else if ((r = testClosPar(element)) !== null|undefined){
+    }else if ((r = testClosPar(element)) !== null){
       allTokens.push(r)
-    }else if ((r = testLogOp(element)) !== null|undefined){
+    }else if ((r = getIds(element)) !== null){
       allTokens.push(r)
-    }else if ((r = getIds(element)) !== null|undefined){
+    }else if ((r = testCompOp(element)) !== null){
+      // Elimina el token OperComp
+    }else if ((r = testLitStrg(element)) !== null){
       allTokens.push(r)
-    }else if ((r = testCompOp(element)) !== null|undefined){
-      allTokens.push(r)
-    }else if ((r = testLitStrg(element)) !== null|undefined){
-      allTokens.push(r)
-    }else if ((r = testNumCons(element)) !== null|undefined){
+    }else if ((r = testNumCons(element)) !== null){
       allTokens.push(r)
     }
   })
+
   return allTokens
 }
 
@@ -109,7 +108,7 @@ function getTokenStrg(tokenList){
 
 function sintacAnalisis(tokenStrg){
   const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
-    
+
   if (expDecl.test(tokenStrg)){
     switch (tokenStrg[0]){
       case "if":
