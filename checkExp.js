@@ -9,6 +9,7 @@ const expLogOp = /(true|false)/ //Operador logico eq a [true|false]
 const expIf = /resvWif OpenPar id OperComp LitStrg ClosPar/ //Expresion if
 const expFunc = /resvWde id OpenPar (id)*? ClosPar/  //expresion funcion
 const expWhile = /resvWwh OpenPar (LogOp|id OperComp NumConst) ClosPar/ //expresion while
+const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
 
 
 function setToken(token='', val=''){
@@ -108,12 +109,19 @@ function getTokenStrg(tokenList){
 }
 
 function sintacAnalisis(tokenStrg){
-  if (expIf.test(tokenStrg)){
-    return ["Sintaxis correcta para declaracion if",true]
-  }else if (expFunc.test(tokenStrg)){
-    return ["Sintaxis correcta para declaracion de funcion", true]
-  }else if (expWhile.test(tokenStrg)){
-    return ["Sintaxis correcta para declaracion de while", true]
+  const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
+  
+  if (expDecl.test(tokenStrg)){
+    switch (tokenStrg[0]){
+      case "if":
+        return expIf.test(tokenStrg) ? ["Sintaxis correcta para declaracion if", true] : ["Sintaxis incorrecta para declaracion if", false]
+      case "while":
+        return expWhile.test(tokenStrg) ? ["Sintaxis correcta para declaracion de while", true] : ["Sintaxis incorrecta para declaracion de while", false]
+      case "def":
+        return expFunc.test(tokenStrg) ? ["Sintaxis correcta para declaracion de funcion", true] : ["Sintaxis incorrecta para declaracion de funcion", false]
+      default:
+    return ["Sintaxis incorrecta para declaracion", false]
+    }
   }
   return ["No se reconoce la sintaxis", false]
 }
