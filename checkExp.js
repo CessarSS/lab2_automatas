@@ -11,7 +11,6 @@ const expFunc = /resvWde id OpenPar (id)*? ClosPar/  //expresion funcion
 const expWhile = /resvWwh OpenPar (LogOp|id OperComp NumConst) ClosPar/ //expresion while
 const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
 
-
 function setToken(token='', val=''){
   return {token, val}
 }
@@ -110,7 +109,7 @@ function getTokenStrg(tokenList){
 
 function sintacAnalisis(tokenStrg){
   const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
-  
+    
   if (expDecl.test(tokenStrg)){
     switch (tokenStrg[0]){
       case "if":
