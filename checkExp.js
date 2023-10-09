@@ -6,7 +6,8 @@ const expCompOp = /(>|<|==|<=|>=)/ //Operador comparacion eq a [>|<|==|<=|>=]
 const expStrg = /^\"\w*|\s*\"$/;  //Literal eq a ["[az]*[ ]*"]
 const expNumb = /^[0-9]+$/; //Numero eq a [0-9]
 const expLogOp = /(true|false)/ //Operador logico eq a [true|false]
-const expIf = /resvWif OpenPar id OperComp LitStrg ClosPar/ //Expresion if
+const expIf = /if\s*\((\w*|\w*)*\)\:n(\t|\s{4})(pass)$/;
+//const expIf = /resvWif OpenPar id OperComp LitStrg ClosPar/ //Expresion if
 const expFunc = /resvWde id OpenPar (id)*? ClosPar/  //expresion funcion
 const expWhile = /resvWwh OpenPar (LogOp|id OperComp NumConst) ClosPar/ //expresion while
 const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
