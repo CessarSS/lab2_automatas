@@ -76,25 +76,26 @@ function testResvWord(input = ""){
 
 function joinTokens(inputList){
   let allTokens = []
-
-  inputList.map((element) => {
-    if ((r = testResvWord(element)) !== null){
+  let r
+  inputList.map((element)=>{
+    if ((r = testResvWord(element)) !== null|undefined){
       allTokens.push(r)
-    }else if ((r = testOpenPar(element)) !== null){
+    }else if ((r = testOpenPar(element)) !== null|undefined){
       allTokens.push(r)
-    }else if ((r = testClosPar(element)) !== null){
+    }else if ((r = testClosPar(element)) !== null|undefined){
       allTokens.push(r)
-    }else if ((r = getIds(element)) !== null){
+    }else if ((r = testLogOp(element)) !== null|undefined){
       allTokens.push(r)
-    }else if ((r = testCompOp(element)) !== null){
-      // Elimina el token OperComp
-    }else if ((r = testLitStrg(element)) !== null){
+    }else if ((r = getIds(element)) !== null|undefined){
       allTokens.push(r)
-    }else if ((r = testNumCons(element)) !== null){
+    }else if ((r = testCompOp(element)) !== null|undefined){
+      allTokens.push(r)
+    }else if ((r = testLitStrg(element)) !== null|undefined){
+      allTokens.push(r)
+    }else if ((r = testNumCons(element)) !== null|undefined){
       allTokens.push(r)
     }
   })
-
   return allTokens
 }
 
@@ -108,17 +109,17 @@ function getTokenStrg(tokenList){
 
 function sintacAnalisis(tokenStrg){
   const expDecl = /(resvWif|resvWwh|resvWdef) OpenPar (.*) ClosPar/ //expresion declaracion
-  
+    
   if (expDecl.test(tokenStrg)){
     switch (tokenStrg[0]){
       case "if":
-        return expIf.test(tokenStrg) ? ["Sintaxis correcta para declaracion if", true] : ["Error de sintaxis en la declaracion if", false]
+        return expIf.test(tokenStrg) ? ["Sintaxis correcta para declaracion if", true] : ["Sintaxis incorrecta para declaracion if", false]
       case "while":
-        return expWhile.test(tokenStrg) ? ["Sintaxis correcta para declaracion de while", true] : ["Error de sintaxis en la declaracion de while", false]
+        return expWhile.test(tokenStrg) ? ["Sintaxis correcta para declaracion de while", true] : ["Sintaxis incorrecta para declaracion de while", false]
       case "def":
-        return expFunc.test(tokenStrg) ? ["Sintaxis correcta para declaracion de funcion", true] : ["Error de sintaxis en la declaracion de funcion", false]
+        return expFunc.test(tokenStrg) ? ["Sintaxis correcta para declaracion de funcion", true] : ["Sintaxis incorrecta para declaracion de funcion", false]
       default:
-        return ["Error de sintaxis en la declaracion", false]
+    return ["Sintaxis incorrecta para declaracion", false]
     }
   }
   return ["No se reconoce la sintaxis", false]
@@ -132,4 +133,3 @@ export function identifSyntx(input = "") {
   let sictacAnlis = sintacAnalisis(tokenStrg)
   return sictacAnlis.concat(tokenList)
 }
-
